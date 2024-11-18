@@ -11,9 +11,13 @@ export default function Home() {
     <div className="flex items-center flex-col">
       <div className="flex flex-col max-w-[720px] w-full">
       <div className="flex">
-        <button onClick={() => setTab("profile")} className="focus:outline-2 focus:outline-[goldenrod] outline outline-offset-4 p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center"
+        <button onClick={() => setTab("profile")} className={`p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center ${
+              tab === "profile" ? "outline outline-2 outline-[goldenrod] outline-offset-4" : ""
+            }`}
         >Profile</button>
-        <button onClick={() => setTab("about-me")} className="focus:outline-2 focus:outline-[goldenrod] outline outline-offset-4 p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center">About Me</button>
+        <button onClick={() => setTab("about-me")} className={`p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center ${
+              tab === "about-me" ? "outline outline-2 outline-[goldenrod] outline-offset-4" : ""
+            }`}>About Me</button>
       </div>
       <div>
         {
