@@ -1,19 +1,19 @@
 "use client"
 
 import { useState } from "react";
-import Image from 'next/image'
+import Image from "next/image"
 
 
 export default function Home() {
-  const [tab, setTab] = useState('profile');
+  const [tab, setTab] = useState("profile");
 
   return (
     <div className="flex items-center flex-col">
       <div className="flex flex-col max-w-[720px] w-full">
       <div className="flex">
-        <button onClick={() => setTab('profile')} className="focus:outline-2 focus:outline-[goldenrod] outline outline-offset-4 p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center"
+        <button onClick={() => setTab("profile")} className="focus:outline-2 focus:outline-[goldenrod] outline outline-offset-4 p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center"
         >Profile</button>
-        <button onClick={() => setTab('about-me')} className="focus:outline-2 focus:outline-[goldenrod] outline outline-offset-4 p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center">About Me</button>
+        <button onClick={() => setTab("about-me")} className="focus:outline-2 focus:outline-[goldenrod] outline outline-offset-4 p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center">About Me</button>
       </div>
       <div>
         {
@@ -32,7 +32,7 @@ export default function Home() {
               <p className="mt-2">This page is telling about your self</p>
               <div className="my-8">
                 <h2>Uncle Roger</h2>
-                <p className="mt-3 leading-loose">Nigel Ng Kin-ju[a] (/ʌŋ/ UNG; born 1990/1991) is a Malaysian comedian and YouTuber. He is best known for co-creating (alongside Evelyn Mok) and portraying Uncle Roger, a character representing a middle-aged Asian uncle with an exaggerated Cantonese accent who is usually seen aggressively critiquing people's attempts at cooking Asian food.</p>
+                <p className="mt-3 leading-loose">Nigel Ng Kin-ju[a] (/ʌŋ/ UNG; born 1990/1991) is a Malaysian comedian and YouTuber. He is best known for co-creating (alongside Evelyn Mok) and portraying Uncle Roger, a character representing a middle-aged Asian uncle with an exaggerated Cantonese accent who is usually seen aggressively critiquing peoples attempts at cooking Asian food.</p>
               </div>
             </div>
           )
