@@ -37,10 +37,6 @@ const Form = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setIsSubmitted(true);
-  };
-
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-col w-full max-w-[360px]">
@@ -100,7 +96,7 @@ const Form = () => {
         <div className="flex flex-col mb-4">
           <button
             className="bg-slate-900 text-white rounded-lg py-3 px-4"
-            onClick={handleSubmit}
+            onClick={() => setIsSubmitted(true)}
           >
             Submit
           </button>
