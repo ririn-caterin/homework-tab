@@ -4,12 +4,20 @@ import { useState, ChangeEvent } from "react";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
 const Form = () => {
-  const [email, setEmail] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
-  const [checkedCount, setCheckedCount] = useState<number>(0);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  interface FormData {
+    email: string;
+    message: string;
+    selectedCategories: string[];
+    isDropdownOpen: boolean;
+    isSubmitted: boolean;
+  }
+  const [formData, setFormData] = useState<FormData>({
+    email: "",
+    message: "",
+    selectedCategories: [] as string[],
+    isDropdownOpen: false,
+    isSubmitted: false,
+  });
 
   const categories = [
     "Complaint",
@@ -17,24 +25,46 @@ const Form = () => {
     "Questions",
     "Others",
   ];
-  const totalCategories = categories.length;
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-
     if (e.target.checked) {
-      setSelectedCategories((prev) => [...prev, value]);
-      setCheckedCount((prevCount) => prevCount + 1);
+      setFormData((prev) => ({
+        ...prev,
+        selectedCategories: [...prev.selectedCategories, value],
+      }));
     } else {
-      setSelectedCategories((prev) =>
-        prev.filter((category) => category !== value)
-      );
-      setCheckedCount((prevCount) => prevCount - 1);
+      setFormData((prev) => ({
+        ...prev,
+        selectedCategories: prev.selectedCategories.filter(
+          (category) => category !== value
+        ),
+      }));
     }
   };
 
   const toggleDropdown = () => {
-    setIsDropdownOpen((prev) => !prev);
+    setFormData((prev) => ({
+      ...prev,
+      isDropdownOpen: !prev.isDropdownOpen,
+    }));
+  };
+
+  const handleSubmit = () => {
+    setFormData((prev) => ({
+      ...prev,
+      isSubmitted: true,
+    }));
   };
 
   return (
@@ -44,10 +74,12 @@ const Form = () => {
           <label>Email</label>
           <input
             type="text"
+            name="email"
             className="border px-3 py-2 border-gray-400 rounded-lg"
             placeholder="Input email"
-            onChange={(e) => setEmail(e.target.value)}
-          ></input>
+            value={formData.email}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="flex flex-col mb-4">
           <label>Message Categories</label>
@@ -59,12 +91,14 @@ const Form = () => {
               <div>
                 <span>Categories: </span>
                 <span>
-                  {checkedCount === totalCategories ? "All" : checkedCount}
+                  {formData.selectedCategories.length === categories.length
+                    ? "All"
+                    : formData.selectedCategories.length}
                 </span>
               </div>
-              {isDropdownOpen === true ? <ChevronUp /> : <ChevronDown />}
+              {formData.isDropdownOpen ? <ChevronUp /> : <ChevronDown />}
             </div>
-            {isDropdownOpen && (
+            {formData.isDropdownOpen && (
               <div className="flex flex-col absolute w-full border border-b-0 z-10 border-gray-400 rounded-lg bg-white mt-3 overflow-hidden">
                 {categories.map((category, index) => (
                   <label
@@ -75,7 +109,7 @@ const Form = () => {
                       type="checkbox"
                       value={category}
                       onChange={handleCheckboxChange}
-                      checked={selectedCategories.includes(category)}
+                      checked={formData.selectedCategories.includes(category)}
                     />
                     <span className="ml-2">{category}</span>
                   </label>
@@ -87,32 +121,34 @@ const Form = () => {
         <div className="flex flex-col mb-4">
           <label>Message</label>
           <textarea
+            name="message"
             className="border px-3 py-2 border-gray-400 rounded-lg"
             placeholder="Input your message..."
-            onChange={(e) => setMessage(e.target.value)}
+            value={formData.message}
+            onChange={handleInputChange}
             rows={4}
           ></textarea>
         </div>
         <div className="flex flex-col mb-4">
           <button
             className="bg-slate-900 text-white rounded-lg py-3 px-4"
-            onClick={() => setIsSubmitted(true)}
+            onClick={handleSubmit}
           >
             Submit
           </button>
         </div>
       </div>
-      {isSubmitted && (
+      {formData.isSubmitted && (
         <div className="flex flex-col w-full max-w-[360px]">
-          <div>Email: {email}</div>
+          <div>Email: {formData.email}</div>
           <div>
             Selected Categories:
-            {selectedCategories.length > 0 &&
-              selectedCategories.map((category, index) => (
+            {formData.selectedCategories.length > 0 &&
+              formData.selectedCategories.map((category, index) => (
                 <p key={index}>{category}</p>
               ))}
           </div>
-          <div>Message: {message}</div>
+          <div>Message: {formData.message}</div>
         </div>
       )}
     </div>
