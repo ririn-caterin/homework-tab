@@ -1,38 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { MouseEventHandler, ReactNode, useState } from "react";
 import Image from "next/image";
 
+type TabButtonProps = {
+  isActive: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  children: ReactNode;
+};
+
+const TabButton = ({ isActive, onClick, children }: TabButtonProps) => {
+  return (
+    <button
+      onClick={onClick}
+      className={`p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center ${
+        isActive ? "outline outline-2 outline-[goldenrod] outline-offset-4" : ""
+      }`}
+    >
+      {children}
+    </button>
+  );
+};
+
 export default function Home() {
-  const [tab, setTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState("profile");
 
   return (
     <div className="flex items-center flex-col">
       <div className="flex flex-col max-w-[720px] w-full">
         <div className="flex">
-          <button
-            onClick={() => setTab("profile")}
-            className={`p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center ${
-              tab === "profile"
-                ? "outline outline-2 outline-[goldenrod] outline-offset-4"
-                : ""
-            }`}
+          <TabButton
+            isActive={activeTab === "profile"}
+            onClick={() => setActiveTab("profile")}
           >
             Profile
-          </button>
-          <button
-            onClick={() => setTab("about-me")}
-            className={`p-2 m-4 bg-neutral-900 text-white rounded-xl w-full text-center ${
-              tab === "about-me"
-                ? "outline outline-2 outline-[goldenrod] outline-offset-4"
-                : ""
-            }`}
+          </TabButton>
+          <TabButton
+            isActive={activeTab === "about-me"}
+            onClick={() => setActiveTab("about-me")}
           >
             About Me
-          </button>
+          </TabButton>
         </div>
         <div>
-          {tab === "profile" ? (
+          {activeTab === "profile" ? (
             <div className="m-4">
               <h1>Profile</h1>
               <p>The page your profile page</p>
