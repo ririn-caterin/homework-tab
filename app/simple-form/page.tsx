@@ -55,7 +55,7 @@ const Form = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex flex-col w-full max-w-[360px]">
+      <form className="flex flex-col w-full max-w-[360px]" action={handleSubmit}>
         <div className="flex flex-col my-4">
           <label>Email</label>
           <Input
@@ -102,13 +102,13 @@ const Form = () => {
         </div>
         <div className="flex flex-col mb-4">
           <button
+            type="submit"
             className="bg-slate-900 text-white rounded-lg py-3 px-4"
-            onClick={handleSubmit}
           >
             Submit
           </button>
         </div>
-      </div>
+      </form>
       {isSubmitted && (
         <div className="flex flex-col w-full max-w-[360px]">
           <div>Email: {formData.email}</div>
