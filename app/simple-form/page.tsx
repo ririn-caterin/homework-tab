@@ -3,7 +3,7 @@
 import { Input } from "@/components/input";
 import { MultiSelect } from "@/components/multiselect";
 import { Textarea } from "@/components/textarea";
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 
 type FormData = {
   email: string;
@@ -39,13 +39,16 @@ const Form = () => {
     },
   ];
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
+  const handleFormData = ({
+    key,
+    value,
+  }: {
+    key: keyof FormData;
+    value: string | string[] | number;
+  }) => {
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [key]: value,
     }));
   };
 
@@ -55,7 +58,10 @@ const Form = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <form className="flex flex-col w-full max-w-[360px]" action={handleSubmit}>
+      <form
+        className="flex flex-col w-full max-w-[360px]"
+        action={handleSubmit}
+      >
         <div className="flex flex-col my-4">
           <label>Email</label>
           <Input
@@ -63,7 +69,12 @@ const Form = () => {
             name="email"
             placeholder="Input email"
             value={formData.email}
-            onChange={handleInputChange}
+            onChange={(e) => {
+              handleFormData({
+                key: "email",
+                value: e.target.value,
+              });
+            }}
           />
         </div>
         <div className="flex flex-col mb-4">
@@ -72,20 +83,20 @@ const Form = () => {
             name="categories"
             options={categoryOptions}
             checkedValues={formData.categories}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            onChange={(e) => {
               const value = e.target.value;
               if (e.target.checked) {
-                setFormData((prev) => ({
-                  ...prev,
-                  categories: [...prev.categories, value],
-                }));
+                handleFormData({
+                  key: "categories",
+                  value: [...formData.categories, value],
+                });
               } else {
-                setFormData((prev) => ({
-                  ...prev,
-                  categories: prev.categories.filter(
+                handleFormData({
+                  key: "categories",
+                  value: formData.categories.filter(
                     (category) => category !== value
                   ),
-                }));
+                });
               }
             }}
           />
@@ -96,7 +107,12 @@ const Form = () => {
             name="message"
             placeholder="Input your message..."
             value={formData.message}
-            onChange={handleInputChange}
+            onChange={(e) => {
+              handleFormData({
+                key: "message",
+                value: e.target.value,
+              });
+            }}
             rows={4}
           />
         </div>
